@@ -18,4 +18,12 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.yueking.security</groupId>
+            <artifactId>authorization-security-core</artifactId>
+            <version>${authorization.security.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>
