@@ -1,11 +1,13 @@
 package com.yueking.security.core.entity;
 
 import lombok.Data;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -13,7 +15,6 @@ import java.util.List;
 
 @Data
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 public class User extends Base implements UserDetails, Serializable {
     private String username;
     private String password;
