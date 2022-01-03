@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao extends JpaRepository<User, String>, JpaSpecificationExecutor {
     @Modifying
-    @Query("update User t set t.del = 1 where t.id = ?1")
+    @Query("update User t set t.del = 1 where t.username = ?1")
     void deleteById(String id);
 }
