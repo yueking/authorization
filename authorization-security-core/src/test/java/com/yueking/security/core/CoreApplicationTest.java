@@ -48,8 +48,8 @@ public class CoreApplicationTest {
     @Test
     public void userQuery() throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate = format.parse("2022-01-03");
-        Date endDate = format.parse("2022-01-05");
+        Date startDate = format.parse("2022-01-04");
+        Date endDate = format.parse("2022-01-07");
 
         System.out.println(startDate);
 

@@ -7,10 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -74,7 +71,8 @@ public class UserServiceImpl implements UserService {
                     Path<Date> createdDateExp = root.get("createdDate");
                     // Predicate predicateCreate = criteriaBuilder.greaterThan(createdDateExp, user.getStartDate());
                     // predicateList.add(predicateCreate);
-                    Predicate predicateCreate = criteriaBuilder.between(createdDateExp, user.getStartDate(),user.getEndDate());
+                    // Predicate predicateCreate = criteriaBuilder.between(createdDateExp, user.getStartDate(),user.getEndDate());
+                    Predicate predicateCreate = criteriaBuilder.between(createdDateExp, user.getStartDate(),new Date(user.getEndDate().getTime()+24*3600*1000));
                     predicateList.add(predicateCreate);
                 }
 
