@@ -57,7 +57,6 @@ public class UserServiceImpl implements UserService {
             @Override
             public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicateList = new ArrayList<>();
-                // root = criteriaQuery.from(User.class);
                 Path<String> usernameExp = root.get("username");
                 Path<Boolean> delExp = root.get("del");
 
@@ -69,9 +68,6 @@ public class UserServiceImpl implements UserService {
 
                 if (user.getStartDate() != null) {
                     Path<Date> createdDateExp = root.get("createdDate");
-                    // Predicate predicateCreate = criteriaBuilder.greaterThan(createdDateExp, user.getStartDate());
-                    // predicateList.add(predicateCreate);
-                    // Predicate predicateCreate = criteriaBuilder.between(createdDateExp, user.getStartDate(),user.getEndDate());
                     Predicate predicateCreate = criteriaBuilder.between(createdDateExp, user.getStartDate(),new Date(user.getEndDate().getTime()+24*3600*1000));
                     predicateList.add(predicateCreate);
                 }

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserDao extends JpaRepository<User, String>, JpaSpecificationExecutor {
+public interface UserDao extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
     @Modifying
     @Query("update User t set t.del = 1 where t.username = ?1")
     void deleteById(String id);
