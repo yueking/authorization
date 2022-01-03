@@ -24,8 +24,14 @@ public class CoreApplicationTest {
     }
 
     @Test
+    public void userById(){
+        User user2 = userService.findById("user2");
+        System.out.println(user2);
+    }
+
+    @Test
     public void userDelById() {
-        userService.deleteById("user0");
+        userService.deleteById("user1");
     }
     @Test
     public void userInsert(){
