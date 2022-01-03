@@ -3,6 +3,9 @@ package com.yueking.security.core.service.impl;
 import com.yueking.security.core.entity.User;
 import com.yueking.security.core.repository.UserDao;
 import com.yueking.security.core.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -76,6 +79,32 @@ public class UserServiceImpl implements UserService {
             }
         };
         return userDao.findAll(specification);
+    }
+
+    public Page<User> query(User user, Pageable pageable) {
+        Specification<User> specification = new Specification<User>() {
+            @Override
+            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicateList = new ArrayList<>();
+                Path<String> usernameExp = root.get("username");
+                Path<Boolean> delExp = root.get("del");
+
+                Predicate predicateUsername = criteriaBuilder.like(usernameExp, "%" + user.getUsername() + "%");
+                Predicate predicateDel = criteriaBuilder.equal(delExp, user.isDel());
+
+                predicateList.add(predicateUsername);
+                predicateList.add(predicateDel);
+
+                if (user.getStartDate() != null) {
+                    Path<Date> createdDateExp = root.get("createdDate");
+                    Predicate predicateCreate = criteriaBuilder.between(createdDateExp, user.getStartDate(),new Date(user.getEndDate().getTime()+24*3600*1000));
+                    predicateList.add(predicateCreate);
+                }
+
+                return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
+            }
+        };
+        return userDao.findAll(specification,pageable);
     }
 
 
