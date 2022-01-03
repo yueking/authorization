@@ -21,6 +21,15 @@ public class CoreApplicationTest {
     private UserService userService;
 
     @Test
+    public void userDel(){
+        userDao.deleteAll();
+    }
+
+    @Test
+    public void userDelById() {
+
+    }
+    @Test
     public void userInsert(){
         for (int i = 0; i < 10; i++) {
             userService.add(new User("user"+i));
@@ -29,9 +38,6 @@ public class CoreApplicationTest {
 
     @Test
     public void userQuery(){
-        User user = new User();
-        user.setUsername("user");
-        List<User> query = userService.query(user, null);
-        System.out.println(query.size());
+
     }
 }

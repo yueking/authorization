@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="sys_user")
 public class User extends Base implements UserDetails, Serializable {
+    @Id
     private String username;
     private String password;
 

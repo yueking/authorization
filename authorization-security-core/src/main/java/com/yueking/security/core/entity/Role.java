@@ -1,6 +1,7 @@
 package com.yueking.security.core.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -13,6 +14,10 @@ import java.util.List;
 @Entity
 @Table(name="sys_role")
 public class Role extends Base implements GrantedAuthority, Serializable {
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String id;
     private String roleName;
     private String roleTag;
     private String roleDesc;

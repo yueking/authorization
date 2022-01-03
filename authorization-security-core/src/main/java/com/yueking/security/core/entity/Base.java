@@ -16,10 +16,8 @@ import java.util.Date;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class Base implements Serializable {
-    @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    @Column(name = "del")
+    private boolean del;
 
     @CreatedDate
     @Column(name = "created_date", updatable = false)
@@ -36,4 +34,10 @@ public class Base implements Serializable {
     @LastModifiedBy
     @Column(name = "updated_by", length = 64)
     private String updatedBy;
+
+    @Transient
+    private Date startDate;
+
+    @Transient
+    private Date endDate;
 }
