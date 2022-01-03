@@ -3,10 +3,7 @@ package com.yueking.security.core.entity;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name="sys_role")
 public class Role extends Base implements GrantedAuthority, Serializable {
     private String roleName;
     private String roleTag;

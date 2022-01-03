@@ -4,10 +4,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -15,6 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name="sys_user")
 public class User extends Base implements UserDetails, Serializable {
     private String username;
     private String password;

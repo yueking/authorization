@@ -22,7 +22,9 @@ public class CoreApplicationTest {
 
     @Test
     public void userInsert(){
-        userDao.save(new User("yueking"));
+        for (int i = 0; i < 10; i++) {
+            userService.add(new User("user"+i));
+        }
     }
 
     @Test
