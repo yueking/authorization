@@ -12,6 +12,6 @@ public interface UserService {
     User findById(String username);
     void modify(User user);
     void add(User user);
-    List<User> query(Example<User> userExample, Sort sort) ;
+    List<User> query(User user, Sort sort) ;
     Page<User> query(Example<User> userExample, Pageable pageable);
 }

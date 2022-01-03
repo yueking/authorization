@@ -4,10 +4,7 @@ import com.yueking.security.core.entity.User;
 import com.yueking.security.core.repository.UserDao;
 import com.yueking.security.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +33,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> query(Example<User> userExample, Sort sort) {
+    public List<User> query(User user, Sort sort) {
+        ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith());
+        Example<User> userExample = Example.of(user, matcher);
         if (sort == null) {
             return userDao.findAll(userExample);
         }
