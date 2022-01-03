@@ -3,14 +3,14 @@ package com.yueking.security.core.service.impl;
 import com.yueking.security.core.entity.User;
 import com.yueking.security.core.repository.UserDao;
 import com.yueking.security.core.service.UserService;
+import com.yueking.security.core.specification.UserSpecification;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.*;
-import java.util.*;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -40,71 +40,13 @@ public class UserServiceImpl implements UserService {
         userDao.save(user);
     }
 
-    // public List<User> query(User user) {
-    //     user.setUsername("user5");
-    //     Specification<User> specification = new Specification<User>() {
-    //         @Override
-    //         public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-    //             Path<Object> username = root.get("username");
-    //             Path<Object> createdDate = root.get("createdDate");
-    //             Predicate predicateUsername = criteriaBuilder.equal(username, user.getUsername());
-    //             criteriaQuery.where(predicateUsername);
-    //             return criteriaQuery.getRestriction();
-    //         }
-    //     };
-    //     return userDao.findAll(specification);
-    // }
-
-    public List<User> query(User user) {
-        Specification<User> specification = new Specification<User>() {
-            @Override
-            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicateList = new ArrayList<>();
-                Path<String> usernameExp = root.get("username");
-                Path<Boolean> delExp = root.get("del");
-
-                Predicate predicateUsername = criteriaBuilder.like(usernameExp, "%" + user.getUsername() + "%");
-                Predicate predicateDel = criteriaBuilder.equal(delExp, user.isDel());
-
-                predicateList.add(predicateUsername);
-                predicateList.add(predicateDel);
-
-                if (user.getStartDate() != null) {
-                    Path<Date> createdDateExp = root.get("createdDate");
-                    Predicate predicateCreate = criteriaBuilder.between(createdDateExp, user.getStartDate(),new Date(user.getEndDate().getTime()+24*3600*1000));
-                    predicateList.add(predicateCreate);
-                }
-
-                return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
-            }
-        };
-        return userDao.findAll(specification);
+    public List<User> query(User user, Sort sort) {
+        Specification specification = new UserSpecification(user);
+        return userDao.findAll(specification,sort);
     }
 
     public Page<User> query(User user, Pageable pageable) {
-        Specification<User> specification = new Specification<User>() {
-            @Override
-            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicateList = new ArrayList<>();
-                Path<String> usernameExp = root.get("username");
-                Path<Boolean> delExp = root.get("del");
-
-                Predicate predicateUsername = criteriaBuilder.like(usernameExp, "%" + user.getUsername() + "%");
-                Predicate predicateDel = criteriaBuilder.equal(delExp, user.isDel());
-
-                predicateList.add(predicateUsername);
-                predicateList.add(predicateDel);
-
-                if (user.getStartDate() != null) {
-                    Path<Date> createdDateExp = root.get("createdDate");
-                    Predicate predicateCreate = criteriaBuilder.between(createdDateExp, user.getStartDate(),new Date(user.getEndDate().getTime()+24*3600*1000));
-                    predicateList.add(predicateCreate);
-                }
-
-                return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
-            }
-        };
-        return userDao.findAll(specification,pageable);
+        return userDao.findAll(new UserSpecification(user),pageable);
     }
 
 

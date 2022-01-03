@@ -64,8 +64,8 @@ public class CoreApplicationTest {
         user.setEndDate(endDate);
         System.out.println("startDate:"+startDate.toString());
 
-
-        List<User> query = userService.query(user);
+        Sort sort = Sort.by(Sort.Direction.DESC, "username");
+        List<User> query = userService.query(user,sort);
         System.out.println(query.size());
         for (User user1 : query) {
             System.out.println(user1.getUsername()+"\t"+user1.getCreatedDate());
@@ -88,8 +88,9 @@ public class CoreApplicationTest {
         System.out.println("startDate:"+startDate.toString());
 
 
-        Sort sort = Sort.by(Sort.Direction.ASC, "username");
-        Pageable pageable = PageRequest.of(0, 2,sort);
+        Sort sort = Sort.by(Sort.Direction.DESC, "username");
+        // Pageable pageable = PageRequest.of(0, 2,sort);
+        Pageable pageable = PageRequest.of(0, 2);
 
         Page<User> userPage = userService.query(user, pageable);
         System.out.println(userPage);
