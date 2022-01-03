@@ -8,14 +8,14 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@Entity
+@MappedSuperclass
 public class Base implements Serializable {
     @Id
     @GeneratedValue(generator = "system-uuid")

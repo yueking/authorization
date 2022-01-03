@@ -1,6 +1,7 @@
 package com.yueking.security.core.entity;
 
 import lombok.Data;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,9 +13,8 @@ import java.util.List;
 
 @Data
 @Entity
-public class User implements UserDetails, Serializable {
-    @Id
-    @Column(name = "user_id")
+@EntityListeners(AuditingEntityListener.class)
+public class User extends Base implements UserDetails, Serializable {
     private String username;
     private String password;
 

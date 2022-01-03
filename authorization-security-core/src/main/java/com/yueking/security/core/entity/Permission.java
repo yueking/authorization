@@ -1,24 +1,15 @@
 package com.yueking.security.core.entity;
 
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.io.Serializable;
 
 
 @Data
 @Entity
-public class Permission implements GrantedAuthority, Serializable {
-    @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "perm_id")
-    private String id;
+public class Permission extends Base implements GrantedAuthority, Serializable {
     private String permName;
     private String permTag;
     private String permDesc;
