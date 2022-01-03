@@ -1,5 +1,6 @@
 package com.yueking.security.demo;
 
+import com.yueking.security.core.repository.UserDao;
 import org.junit.Before;
 
 import org.junit.Test;
@@ -38,5 +39,6 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3));
+
     }
 }

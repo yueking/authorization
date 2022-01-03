@@ -23,6 +23,11 @@ public class User implements UserDetails, Serializable {
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
 
+    public User(){}
+    public User(String username){
+        this.username = username;
+    }
+
     @ManyToMany
     @JoinTable(name = "sys_user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     public List<Role> roles = new LinkedList<>();
