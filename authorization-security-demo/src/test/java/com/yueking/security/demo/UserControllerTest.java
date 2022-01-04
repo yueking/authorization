@@ -1,6 +1,11 @@
 package com.yueking.security.demo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.sun.javaws.jnl.RContentDesc;
+import com.yueking.security.core.entity.User;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +18,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -48,11 +55,24 @@ public class UserControllerTest {
     }
     @Test
     public void whenCreateSuccess()throws Exception {
-        String content = "{\"del\":false,\"username\":\"admin\",\"password\":\"admin\"}";
-        mockMvc.perform(MockMvcRequestBuilders.post("/user").contentType(MediaType.APPLICATION_JSON)
+        User user = new User();
+        user.setUsername("yueking");
+        user.setPassword("yueking");
+        user.setDel(false);
+        user.setCreatedDate(new Date());
+
+        ObjectMapper objectMapper = new JsonMapper();
+        String json = objectMapper.writeValueAsString(user);
+        System.out.println(json);
+
+        String content = json;
+        String result = mockMvc.perform(MockMvcRequestBuilders.post("/user").contentType(MediaType.APPLICATION_JSON)
                 .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                // .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("admin"));
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("admin"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value(user.getUsername()))
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(result);
+        User user1 = objectMapper.readValue(result, User.class);
+        System.out.println(objectMapper.writeValueAsString(user1));
     }
 }

@@ -1,6 +1,7 @@
 package com.yueking.security.demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yueking.security.core.entity.Base;
 import com.yueking.security.core.entity.Permission;
 import com.yueking.security.core.entity.User;
@@ -39,10 +40,13 @@ public class UserController {
         return userService.findById(id);
     }
 
+    @JsonView(Base.DetailView.class)
     @PostMapping
     public User addUser(@RequestBody User user) {
         System.out.println("user:"+user);
-        return userService.add(user);
+        System.out.println("createDate:"+user.getCreatedDate());
+        // return userService.add(user);
+        return user;
     }
 
 
