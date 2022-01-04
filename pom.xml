@@ -74,6 +74,13 @@
                 <version>1.18.22</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>6.1.5.Final</version>
+                <!--<version>7.0.1.Final</version>-->
+            </dependency>
+
             <!-- 数据库连接池-->
             <dependency>
                 <groupId>com.zaxxer</groupId>

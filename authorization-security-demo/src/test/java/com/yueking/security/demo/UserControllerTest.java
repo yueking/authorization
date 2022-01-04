@@ -56,7 +56,7 @@ public class UserControllerTest {
     @Test
     public void whenCreateSuccess()throws Exception {
         User user = new User();
-        user.setUsername("yueking");
+        user.setUsername("yuewu");
         user.setPassword("yueking");
         user.setDel(false);
         user.setCreatedDate(new Date());

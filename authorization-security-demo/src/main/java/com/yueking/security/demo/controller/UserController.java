@@ -1,7 +1,6 @@
 package com.yueking.security.demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yueking.security.core.entity.Base;
 import com.yueking.security.core.entity.Permission;
 import com.yueking.security.core.entity.User;
@@ -9,6 +8,7 @@ import com.yueking.security.core.service.UserService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class UserController {
 
     @JsonView(Base.DetailView.class)
     @PostMapping
-    public User addUser(@RequestBody User user) {
+    public User addUser(@Valid @RequestBody User user) {
         System.out.println("user:"+user);
         System.out.println("createDate:"+user.getCreatedDate());
         // return userService.add(user);

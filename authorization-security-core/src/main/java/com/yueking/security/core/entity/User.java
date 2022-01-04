@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -18,8 +19,10 @@ import java.util.List;
 public class User extends Base implements UserDetails, Serializable {
     @Id
     @JsonView(SimpleView.class)
+    @NotBlank
     private String username;
     @JsonView(DetailView.class)
+    @NotBlank
     private String password;
 
     @JsonView(DetailView.class)
