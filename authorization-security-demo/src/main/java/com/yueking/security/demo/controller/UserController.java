@@ -13,12 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
-    @Autowired
-    UserService userService;
+    final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @JsonView(Base.SimpleView.class)
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @GetMapping
     public List<User> query(User query, Pageable pageable) {
         System.out.println("============");
         System.out.println("query:" + query);
@@ -31,7 +35,7 @@ public class UserController {
     }
 
     @JsonView(Base.DetailView.class)
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public User findUserById(@PathVariable String id) {
         return userService.findById(id);
     }
