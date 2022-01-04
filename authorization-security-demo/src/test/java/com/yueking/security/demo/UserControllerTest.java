@@ -41,8 +41,8 @@ public class UserControllerTest {
 
     @Test
     public void whenGenInfoSuccess() throws Exception {
-        // mockMvc.perform(MockMvcRequestBuilders.get("/user/1").contentType(MediaType.APPLICATION_JSON))
-        //         .andExpect(MockMvcResultMatchers.status().isOk());
-
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/admin1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("admin1"));
     }
 }
