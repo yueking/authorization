@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 public interface UserService {
-    void add(User user);
+    User add(User user);
     void deleteById(String id);
     void update(User user);
     User findById(String username);

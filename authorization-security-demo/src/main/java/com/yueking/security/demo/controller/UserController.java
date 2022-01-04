@@ -6,10 +6,7 @@ import com.yueking.security.core.entity.Permission;
 import com.yueking.security.core.entity.User;
 import com.yueking.security.core.service.UserService;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +38,13 @@ public class UserController {
     public User findUserById(@PathVariable String id) {
         return userService.findById(id);
     }
+
+    @PostMapping
+    public User addUser(@RequestBody User user) {
+        System.out.println("user:"+user);
+        return userService.add(user);
+    }
+
 
     @JsonView(Base.DetailView.class)
     @GetMapping("/perm")

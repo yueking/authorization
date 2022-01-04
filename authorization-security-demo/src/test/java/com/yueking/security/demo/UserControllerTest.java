@@ -1,5 +1,6 @@
 package com.yueking.security.demo;
 
+import com.sun.javaws.jnl.RContentDesc;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,5 +45,14 @@ public class UserControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/user/admin1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("admin1"));
+    }
+    @Test
+    public void whenCreateSuccess()throws Exception {
+        String content = "{\"del\":false,\"username\":\"admin\",\"password\":\"admin\"}";
+        mockMvc.perform(MockMvcRequestBuilders.post("/user").contentType(MediaType.APPLICATION_JSON)
+                .content(content))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                // .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("admin"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("admin"));
     }
 }
