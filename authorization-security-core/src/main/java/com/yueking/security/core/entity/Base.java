@@ -1,5 +1,7 @@
 package com.yueking.security.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,28 +20,38 @@ import java.util.Date;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class Base implements Serializable {
+    public interface SimpleView{}
+    public interface DetailView extends SimpleView{}
+
+    @JsonView(DetailView.class)
     @Column(name = "del")
     private boolean del;
 
+    @JsonView(DetailView.class)
     @CreatedDate
     @Column(name = "created_date", updatable = false)
     private Date createdDate;
 
+    @JsonIgnore
     @CreatedBy
     @Column(name = "created_by", updatable = false, length = 64)
     private String createdBy;
 
+    @JsonIgnore
     @LastModifiedDate
     @Column(name = "updated_date")
     private Date updatedDate;
 
+    @JsonIgnore
     @LastModifiedBy
     @Column(name = "updated_by", length = 64)
     private String updatedBy;
 
+    @JsonIgnore
     @Transient
     private Date startDate;
 
+    @JsonIgnore
     @Transient
     private Date endDate;
 }

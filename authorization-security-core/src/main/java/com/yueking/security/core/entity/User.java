@@ -1,5 +1,7 @@
 package com.yueking.security.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,12 +17,18 @@ import java.util.List;
 @Table(name="sys_user")
 public class User extends Base implements UserDetails, Serializable {
     @Id
+    @JsonView(SimpleView.class)
     private String username;
+    @JsonView(DetailView.class)
     private String password;
 
+    @JsonView(DetailView.class)
     private boolean accountNonExpired = true;
+    @JsonView(DetailView.class)
     private boolean accountNonLocked = true;
+    @JsonView(DetailView.class)
     private boolean credentialsNonExpired = true;
+    @JsonView(DetailView.class)
     private boolean enabled = true;
 
     public User(){}
@@ -28,10 +36,12 @@ public class User extends Base implements UserDetails, Serializable {
         this.username = username;
     }
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "sys_user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     public List<Role> roles = new LinkedList<>();
 
+    @JsonView(DetailView.class)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List authorities = new LinkedList();

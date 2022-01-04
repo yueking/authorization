@@ -1,5 +1,8 @@
 package com.yueking.security.demo.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.yueking.security.core.entity.Base;
+import com.yueking.security.core.entity.Permission;
 import com.yueking.security.core.entity.User;
 import com.yueking.security.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +16,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
 
+    @JsonView(Base.SimpleView.class)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     public List<User> query(User query, Pageable pageable) {
         System.out.println("============");
         System.out.println("query:" + query);
@@ -26,8 +30,20 @@ public class UserController {
         return userList;
     }
 
+    @JsonView(Base.DetailView.class)
     @GetMapping("/user/{id}")
     public User findUserById(@PathVariable String id) {
         return userService.findById(id);
+    }
+
+    @JsonView(Base.DetailView.class)
+    @GetMapping("/perm")
+    public Permission perm() {
+        Permission permission = new Permission();
+        permission.setId("pId");
+        permission.setPermName("name");
+        permission.setPermTag("tag");
+        permission.setPermDesc("desc");
+        return permission;
     }
 }

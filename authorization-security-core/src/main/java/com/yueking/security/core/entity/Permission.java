@@ -1,5 +1,6 @@
 package com.yueking.security.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,9 +19,13 @@ public class Permission extends Base implements GrantedAuthority, Serializable {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @JsonView(Base.SimpleView.class)
     private String id;
+    @JsonView(Base.SimpleView.class)
     private String permName;
+    @JsonView(Base.DetailView.class)
     private String permTag;
+    @JsonView(Base.SimpleView.class)
     private String permDesc;
 
     @Override
