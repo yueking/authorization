@@ -15,12 +15,15 @@ public class UserController {
     public List<User> query(User query, Pageable pageable) {
         System.out.println("query:"+query);
         System.out.println("pageable:"+pageable);
-        // System.out.println(ReflectionToStringBuilder.toString(query, ToStringStyle.MULTI_LINE_STYLE));
-        // System.out.println(ReflectionToStringBuilder.toString(pageable, ToStringStyle.MULTI_LINE_STYLE));
         List<User> userList = new ArrayList<>();
         userList.add(new User());
         userList.add(new User());
         userList.add(new User());
         return userList;
+    }
+
+    @RequestMapping(value = "")
+    public List<User> query2(User user) {
+        return null;
     }
 }

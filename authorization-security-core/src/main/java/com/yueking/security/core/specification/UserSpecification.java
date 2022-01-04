@@ -34,6 +34,9 @@ public class UserSpecification implements Specification {
             predicateList.add(predicateCreate);
         }
 
-        return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
+        Predicate[] predicates = new Predicate[predicateList.size()];
+        predicateList.toArray(predicates);
+        return criteriaQuery.where(predicates).getRestriction();
+        // return criteriaBuilder.and(predicates);
     }
 }

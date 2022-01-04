@@ -1,0 +1,879 @@
+<html>
+<head>
+<script>
+var kobeutil_params;
+
+function valid() {
+  for(var i=0; i<kobeutil_params.length; i++) {
+    if(kobeutil_params[i][0]==null) {
+      if(kobeutil_params[i][3]==true) continue;
+      alert(kobeutil_params[i][2]);
+      return false;
+    }
+    if(kobeutil_params[i][0].length!=null) {
+      for(var j=0; j<kobeutil_params[i][0].length; j++) {
+        if(!kobeutil_params[i][1].test(kobeutil_params[i][0][j].value)) {
+          alert(kobeutil_params[i][2]);
+          return false;
+        }
+      }
+    } else if(!kobeutil_params[i][1].test(kobeutil_params[i][0].value)) {
+      alert(kobeutil_params[i][2]);
+      return false;
+    }
+  }
+  return true;
+}
+
+// Begin  //place these scripts within BODY tag if you are using IE 4.0 or below.
+//****************************************************************************
+// Release date: 2000.5.9
+// Anyone may modify it to satify his needs, but please leave this comment ahead.
+//****************************************************************************
+var gdCtrl = new Object();
+var gcGray = "#808080";
+var gcToggle = "#ffff00";
+var gcBG = "#cccccc";
+
+var gdCurDate = new Date();
+var giYear = gdCurDate.getFullYear();
+var giMonth = gdCurDate.getMonth()+1;
+var giDay = gdCurDate.getDate();
+var VicPopCal = new Object();
+
+//****************************************************************************
+// Param: popCtrl is the widget beyond which you want this calendar to appear;
+//        dateCtrl is the widget into which you want to put the selected date;
+//        popCal is the widget to display the calendar;
+// i.e.: <input type="text" name="dc" style="text-align:center" readonly><INPUT type="button" value="V" onclick="fPopCalendar(dc,dc,popCal);return false">
+//****************************************************************************
+function fPopCalendar(dateCtrl){
+  //parent.event.cancelBubble=true;
+  if(gdCtrl==dateCtrl) {
+    with(VicPopCal.style) {
+      if(visibility=="visible") visibility = "hidden";
+      else visibility = "visible";
+      return;
+    }
+  }
+  VicPopCal = document.all("popTable");
+  gdCtrl = dateCtrl;
+  fSetYearMon(giYear, giMonth);
+  var point = fGetXY(dateCtrl);
+  with (VicPopCal.style) {
+  	left = point.x;
+	top  = point.y+dateCtrl.offsetHeight+1;
+	visibility = 'visible';
+  }
+  //VicPopCal.focus();
+  // in order to make compatible with IE4.x , here I cut two line below off.
+  //VicPopCal.width=document.all("popTable").offsetWidth;
+  //VicPopCal.height=document.all("popTable").offsetHeight;
+  // if u only target on IE5.x, uncommented them and delete the width&height prop in <IFrame> tag
+  // thus you will find the 3rd para in fDrawCal() now works perfectly.
+}
+
+function fSetDate(iYear, iMonth, iDay){
+  gdCtrl.value = iYear+"-"+iMonth+"-"+iDay; //Here, you could modify the locale as you need !!!!
+  VicPopCal.style.visibility = "hidden";
+}
+
+function fSetSelected(aCell){
+  var iOffset = 0;
+  var iYear = parseInt(tbSelYear.value);
+  var iMonth = parseInt(tbSelMonth.value);
+
+  aCell.bgColor = gcBG;
+  with (aCell.children["cellText"]){
+  	var iDay = parseInt(innerText);
+  	if (color==gcGray)
+		iOffset = (Victor<10)?-1:1;
+	iMonth += iOffset;
+	if (iMonth<1) {
+		iYear--;
+		iMonth = 12;
+	}else if (iMonth>12){
+		iYear++;
+		iMonth = 1;
+	}
+  }
+  fSetDate(iYear, iMonth, iDay);
+}
+
+function Point(iX, iY){
+	this.x = iX;
+	this.y = iY;
+}
+
+function fBuildCal(iYear, iMonth) {
+  var aMonth=new Array();
+  for(i=1;i<7;i++)
+  	aMonth[i]=new Array(i);
+
+  var dCalDate=new Date(iYear, iMonth-1, 1);
+  var iDayOfFirst=dCalDate.getDay();
+  var iDaysInMonth=new Date(iYear, iMonth, 0).getDate();
+  var iOffsetLast=new Date(iYear, iMonth-1, 0).getDate()-iDayOfFirst+1;
+  var iDate = 1;
+  var iNext = 1;
+
+  for (d = 0; d < 7; d++)
+	aMonth[1][d] = (d<iDayOfFirst)?-(iOffsetLast+d):iDate++;
+  for (w = 2; w < 7; w++)
+  	for (d = 0; d < 7; d++)
+		aMonth[w][d] = (iDate<=iDaysInMonth)?iDate++:-(iNext++);
+  return aMonth;
+}
+
+function fDrawCal(iYear, iMonth, iCellWidth, iDateTextSize) {
+  var WeekDay = new Array("周日","周一","周二","周三","周四","周五","周六");
+  var styleTD = " bgcolor='"+gcBG+"' width='"+iCellWidth+"' bordercolor='"+gcBG+"' valign='middle' align='center'  style='font:bold "+iDateTextSize+" Courier;";            //Coded by Liming Weng(Victor Won)  email:victorwon@netease.com
+
+  with (document) {
+	write("<tr>");
+	for(i=0; i<7; i++)
+		write("<td "+styleTD+"color:#990099' >" + WeekDay[i] + "</td>");
+	write("</tr>");
+
+  	for (w = 1; w < 7; w++) {
+		write("<tr>");
+		for (d = 0; d < 7; d++) {
+			write("<td id=calCell "+styleTD+"cursor:hand;' onMouseOver='this.bgColor=gcToggle' onMouseOut='this.bgColor=gcBG' onclick='fSetSelected(this)'>");
+			write("<font id=cellText Victor='Liming Weng'> </font>");
+			write("</td>")
+		}
+		write("</tr>");
+	}
+  }
+}
+
+function fUpdateCal(iYear, iMonth) {
+  myMonth = fBuildCal(iYear, iMonth);
+  var i = 0;
+  for (w = 0; w < 6; w++)
+	for (d = 0; d < 7; d++)
+		with (cellText[(7*w)+d]) {
+			Victor = i++;
+			if (myMonth[w+1][d]<0) {
+				color = gcGray;
+				innerText = -myMonth[w+1][d];
+			}else{
+				color = ((d==0)||(d==6))?"red":"black";
+				innerText = myMonth[w+1][d];
+			}
+		}
+}
+
+function fSetYearMon(iYear, iMon){
+  tbSelMonth.options[iMon-1].selected = true;
+  for (i = 0; i < tbSelYear.length; i++)
+	if (tbSelYear.options[i].value == iYear)
+		tbSelYear.options[i].selected = true;
+  fUpdateCal(iYear, iMon);
+}
+
+function fPrevMonth(){
+  var iMon = tbSelMonth.value;
+  var iYear = tbSelYear.value;
+
+  if (--iMon<1) {
+	  iMon = 12;
+	  iYear--;
+  }
+
+  fSetYearMon(iYear, iMon);
+}
+
+function fNextMonth(){
+  var iMon = tbSelMonth.value;
+  var iYear = tbSelYear.value;
+
+  if (++iMon>12) {
+	  iMon = 1;
+	  iYear++;
+  }
+
+  fSetYearMon(iYear, iMon);
+}
+
+function fGetXY(aTag){
+  var oTmp = aTag;
+  var pt = new Point(0,0);
+  do {
+  	pt.x += oTmp.offsetLeft;
+  	pt.y += oTmp.offsetTop;
+  	oTmp = oTmp.offsetParent;
+  } while(oTmp.tagName!="BODY");
+  return pt;
+}
+
+var gMonths = new Array("一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月");
+
+with (document) {
+write("<table id='popTable' border='0' bgcolor='#99ccff' style='visibility:hidden;position:absolute;'>");
+write("<tr><td style=\"filter:progid:DXImageTransform.Microsoft.gradient(enabled='true',GradientType='1', startColorstr=#003366, endColorstr=#99ccff)\"><span style='cursor:move;width:90%' onmousedown='press();' onmouseup='release();'></span><span style='width:10%;cursor:hand' onclick=\"VicPopCal.style.visibility='hidden';\">X</span></td></tr>");
+write("<TR>");
+write("<td valign='middle' align='center'><input type='button' name='PrevMonth' value='<' style='height:20;width:20;FONT:16 Fixedsys' onClick='fPrevMonth()'>");
+write("&nbsp;<select name='tbSelMonth' onChange='fUpdateCal(tbSelYear.value, tbSelMonth.value)' Victor='Won'>");
+for (i=0; i<12; i++)
+	write("<option value='"+(i+1)+"'>"+gMonths[i]+"</option>");
+write("</SELECT>");
+write("&nbsp;<SELECT name='tbSelYear' onChange='fUpdateCal(tbSelYear.value, tbSelMonth.value)' Victor='Won'>");
+for(i=2018;i<2025;i++)
+	write("<OPTION value='"+i+"'>"+i+"</OPTION>");
+write("</SELECT>");
+write("&nbsp;<input type='button' name='PrevMonth' value='>' style='height:20;width:20;FONT:16 Fixedsys' onclick='fNextMonth()'>");
+write("</td>");
+write("</TR><TR>");
+write("<td align='center'>");
+write("<DIV style='background-color:teal;'><table width='100%' border='0' cellpadding='2'>");
+fDrawCal(giYear, giMonth, 19, 12);
+write("</table></DIV>");
+write("</td>");
+write("</TR><TR><TD align='center'>");
+write("<font style='cursor:hand;font:12 Fixedsys' onclick='fSetDate(giYear,giMonth,giDay)' onMouseOver='this.style.color=gcToggle' onMouseOut='this.style.color=0'>Today:&nbsp;&nbsp;"+gMonths[giMonth-1]+"&nbsp;"+giDay+",&nbsp;"+giYear+"</font>");
+write("</TD></TR>");write("</TD></TR>");
+write("</TABLE>");
+}
+
+var grab = false;
+var mx=0, my=0;
+function press() {
+  grab = true;
+  mx = event.x - VicPopCal.style.pixelLeft;
+  my = document.body.scrollTop + event.y - VicPopCal.style.pixelTop;
+}
+
+function release() {
+  grab = false;
+}
+/*
+document.body.onmouseleave = function() {
+  grab = false;
+}*/
+
+document.body.onmousemove = function(){
+  if(!grab) return;
+  VicPopCal.style.left = event.x - mx;
+  VicPopCal.style.top  = document.body.scrollTop + event.y - my;
+};
+///////////////////////////////////////////////////////////////////////////////////////
+
+function imp() {
+  var s = file.value;
+  if(s.length==0 || s.charAt(1)!=':' || s.lastIndexOf("\\")==-1) {
+    alert("请选择输入文件");
+    return;
+  }
+  try {
+    for(var i=1; i<traffictable.rows.length; i++) {
+      traffictable.deleteRow(i);
+      i--;
+    }
+    for(var i=2; i<lodgetable.rows.length; i++) {
+      lodgetable.deleteRow(i);
+      i--;
+    }
+    var fso = new ActiveXObject("Scripting.FileSystemObject");
+    var a = fso.OpenTextFile(s);
+    document.all("applicant").value = a.ReadLine();
+    document.all("reason").value = a.ReadLine();
+    document.all("tripstartdate").value = a.ReadLine();
+    document.all("tripenddate").value = a.ReadLine();
+    var n = parseFloat(a.ReadLine());
+    for(var i=0; i<n; i++) {
+      addTrafficItem(a.ReadLine(), a.ReadLine(), a.ReadLine(), a.ReadLine(), a.ReadLine(), a.ReadLine(), a.ReadLine());
+    }
+    n = parseFloat(a.ReadLIne());
+    for(var i=0; i<n; i++) {
+      addLodgeItem(a.ReadLine(), a.ReadLine(), a.ReadLine(), a.ReadLine(), a.ReadLine(), a.ReadLine(), a.ReadLine());
+    }
+    document.all("telnum").value = a.ReadLine();
+    document.all("telmoney").value = a.ReadLine();
+    document.all("name").value = a.ReadLine();
+    document.all("branch").value = a.ReadLIne();
+  } catch(e) {
+    alert("操作失败，文件格式有误！");
+  }
+}
+
+function exp() {
+  setP();
+  if(!valid()) return;
+  var s = file.value;
+  if(s.length==0 || s.charAt(1)!=':' || s.lastIndexOf("\\")==-1) {
+    alert("请选择输出位置");
+    return;
+  }
+  try {
+    var fso = new ActiveXObject("Scripting.FileSystemObject");
+    var a = fso.CreateTextFile(s.substring(0, s.lastIndexOf("\\")) + "\\差旅报销单.txt", true);
+    a.WriteLine(document.all("applicant").value);
+    a.WriteLine(document.all("reason").value);
+    a.WriteLine(document.all("tripstartdate").value);
+    a.WriteLine(document.all("tripenddate").value);
+    if(document.all("startdate").length==null) {
+      a.WriteLine("1");
+      a.WriteLine(document.all("startdate").value);
+      a.WriteLine(document.all("startplace").value);
+      a.WriteLine(document.all("enddate").value);
+      a.WriteLine(document.all("endplace").value);
+      a.WriteLine(document.all("vehicle").value);
+      a.WriteLine(document.all("num").value);
+      a.WriteLine(document.all("money").value);
+    }
+    else {
+      a.WriteLine(document.all("startdate").length);
+      for(var i=0; i<document.all("startdate").length; i++) {
+        a.WriteLine(document.all("startdate")[i].value);
+        a.WriteLine(document.all("startplace")[i].value);
+        a.WriteLine(document.all("enddate")[i].value);
+        a.WriteLine(document.all("endplace")[i].value);
+        a.WriteLine(document.all("vehicle")[i].value);
+        a.WriteLine(document.all("num")[i].value);
+        a.WriteLine(document.all("money")[i].value);  
+      }
+    }
+    if(document.all("lodgeplace").length==null) {
+      a.WriteLine("1");
+      a.WriteLine(document.all("lodgeplace").value);
+      a.WriteLine(document.all("lodgetype").value);
+      a.WriteLine(document.all("lodgedays").value);
+      a.WriteLine(document.all("lodgenum").value);
+      a.WriteLine(document.all("lodgemoney").value);
+      a.WriteLine(document.all("othernum").value);
+      a.WriteLine(document.all("othermoney").value);
+    }
+    else {
+      a.WriteLine(document.all("lodgeplace").length);
+      for(var i=0; i<document.all("lodgeplace").length; i++) {
+        a.WriteLine(document.all("lodgeplace")[i].value);
+        a.WriteLine(document.all("lodgetype")[i].value);
+        a.WriteLine(document.all("lodgedays")[i].value);
+        a.WriteLine(document.all("lodgenum")[i].value);
+        a.WriteLine(document.all("lodgemoney")[i].value);
+        a.WriteLine(document.all("othernum")[i].value);
+        a.WriteLine(document.all("othermoney")[i].value);
+      }
+    }
+    a.WriteLine(document.all("telnum").value);
+    a.WriteLine(document.all("telmoney").value);
+    a.WriteLine(document.all("name").value);
+    a.WriteLine(document.all("branch").value);
+    a.close();
+    document.cookie = document.all("applicant").value + "; expires=Fri, 31 Dec 2999 23:59:59 GMT;";
+    alert("操作成功！");
+  } catch(e) {
+    alert("操作失败!");
+  }
+}
+</script>
+<style>
+  .full {width:100%}
+</style>
+<!-- <script language="JScript" src="../../script/validate.js"></script> -->
+<script>
+function addTrafficItem(startdate, startplace, enddate, endplace, vehicle, num, money) {
+  if(startdate==null) {
+    enddate = document.all("enddate");
+    endplace = "";
+    if(enddate!=null) {
+      if(enddate.length==null) {
+        enddate = enddate.value;
+        endplace = document.all("endplace").value;
+      }
+      else {
+        enddate = enddate[enddate.length-1].value;
+        endplace = document.all("endplace")[document.all("endplace").length-1].value;
+      }
+    } else
+      enddate = "";
+    startplace = endplace;
+    startdate = enddate;
+    vehicle = "火车";
+    num = "1";
+    money = "0";
+  }
+  var ro = document.all("enddate")==null?"":" readonly='true'";
+  var onerow = document.createElement("tr");
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=startdate class=full readonly onclick=\"fPopCalendar(this);\" style=\"cursor:hand\" value=" + startdate + ">";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=startplace class=full value='" + startplace + "'" + ro + ">";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=enddate class=full readonly onclick=\"fPopCalendar(this);\" style=\"cursor:hand\" value='" + enddate + "'>";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=endplace class=full value='" + endplace + "'>";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<select name=vehicle class=full><option value='火车'>火车</option><option value='飞机'>飞机</option><option value='长途汽车'>长途汽车</option><option value='轮船'>轮船</option><option value='自驾'>自驾</option></select>";
+  onerow.appendChild(onecell);
+  // onerow.all("vehicle").value = vehicle;
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=num class=full value='" + num + "'>";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=money class=full value='" + money + "'>";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input type=button value=- onclick=\"delitem(this)\" class=full>";
+  onerow.appendChild(onecell);
+  traffictable.lastChild.appendChild(onerow);
+}
+
+function addLodgeItem(lodgeplace, lodgetype, lodgedays, lodgenum, lodgemoney, othernum, othermoney) {
+  if(lodgeplace==null) {
+    lodgeplace = "";
+    lodgetype = "单人";
+    lodgedays = "1";
+    lodgenum = "1";
+    lodgemoney = "0";
+    othernum = "1";
+    othermoney = "0";
+  }
+  var onerow = document.createElement("tr");
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=lodgeplace class=full value='" + lodgeplace + "'>";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<select name=lodgetype class=full><option value='单人'>单人</option><option value='双人同类'>双人同类</option><option value='双人一类'>双人一类</option><option value='双人二类'>双人二类</option><option value='无票据'>无票据</option></select>";
+  onerow.appendChild(onecell);
+  // onerow.all("lodgetype").value = lodgetype;
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=lodgedays class=full value='" + lodgedays + "'>";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=lodgenum class=full value='" + lodgenum + "'>";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=lodgemoney class=full value='" + lodgemoney + "'>";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=othernum class=full value='" + othernum + "'>";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input name=othermoney class=full value='" + othermoney + "'>";
+  onerow.appendChild(onecell);
+  var onecell = document.createElement("td");
+  onecell.innerHTML="<input type=button value=- onclick=\"delitem(this)\" class=full>";
+  onerow.appendChild(onecell);
+  lodgetable.lastChild.appendChild(onerow);
+}
+
+function delitem(btn) {
+  var item = btn.parentElement.parentElement;
+  btn.parentElement.parentElement.parentElement.removeChild(item);
+}
+</script>
+</head>
+<body>
+<div id="editdiv">
+<div style="display:none">
+人员ID：<input name="applicant">
+<script>
+  document.all("applicant").value = document.cookie;
+</script>
+</div>
+姓名：<input name="name">
+部门：<input name="branch"><br>
+<p>出差事由：</p>
+<input type="text" name="reason" size="50">
+<p>启程与回程日期（请精确到小时）</p>
+<input name="tripstartdate"><input name="tripenddate">
+<p>交通明细：</p>
+<table id="traffictable" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <th width="80">出发时间</th>
+    <th width="110">出发地</th>
+    <th width="80">到达时间</th>
+    <th width="110">到达地</th>
+    <th width="80">交通工具</th>
+    <th width="80">票据张数</th>
+    <th width="60">金额</th>
+    <th width="30"><input type="button" value="+" onClick="addTrafficItem()" class="full"></th>
+  </tr>
+</table>
+
+<p>住宿明细：</p>
+<table id="lodgetable" border="1">
+  <tr>
+    <th width="80"rowspan="2">地点</th>
+    <th width="80"rowspan="2">类型</th>
+    <th width="80" rowspan="2">住宿天数</th>
+    <th colspan="2">住宿费</th>
+    <th colspan="2">市内车费及伙食费</th>
+    <th width="30" rowspan="2"><input type="button" value="+" onClick="addLodgeItem()" class="full"></th>
+  </tr>
+  <tr>
+    <th width="80">单据张数</th>
+    <th width="80">金额</th>
+    <th width="80">单据张数</th>
+    <th width="80">金额</th>
+  </tr>
+</table>
+
+<p>其他费用</p>
+<table width="640" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <th>费用类别</th>
+    <th>票据张数</th>
+    <th>金额</td>
+  </tr>
+  <tr>
+    <td><div align="center">通讯费用</div></td>
+    <td><div align="center"><input name="telnum" class="full" value="0"></div></td>
+    <td><div align="center"><input name="telmoney" class="full" value="0"></div></td>
+  </tr>
+</table>
+<input type="submit" value="打印" onclick="prt();"/>
+<input type="file" id="file">
+<input type="button" value="输出" onclick="exp();">
+<input type="button" value="输入" onclick="imp();">
+</div>
+<script>
+addTrafficItem();
+// addLodgeItem();
+                   
+</script>
+<!------------------------------------------------------------------------>
+<script>
+var allrows = [];
+function prt() {
+  setP();
+  if(!valid()) return;
+  if(!confirm("已经输出文件了么？")) return;
+  editdiv.style.display = "none";
+  prt_name.innerHTML = document.all("name").value;
+  prt_branch.innerHTML = document.all("branch").value;
+  prtdiv.style.display = "block";
+  document.all("prt_reason").innerHTML = document.all("reason").value;
+  document.all("prt_tripstartdate").innerHTML = document.all("tripstartdate").value;
+  document.all("prt_tripenddate").innerHTML = document.all("tripenddate").value;
+  for(var j=0; j<evetable.rows.length; j++) {
+    for(var i=0; i<allrows.length; i++) {
+      if(evetable.rows[j]==allrows[i]) {
+        evetable.deleteRow(j);
+        j--;
+        break;
+      }
+    }
+  }
+  var lodgebegin = 6;
+  allrows = new Array();
+  var sum = 0;
+  if(document.all("startdate").length==null) {
+    var row = evetable.insertRow(3);
+    allrows.push(row);
+    lodgebegin++;
+    var cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("startdate").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("startplace").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("enddate").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("endplace").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("vehicle").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("num").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("money").value + "</font></div>";
+    row.appendChild(cell);
+    sum += parseFloat(document.all("money").value);
+  } else {
+    for(var i=0; i<document.all("startdate").length; i++) {
+      lodgebegin++;
+      var row = evetable.insertRow(3+i);
+      allrows.push(row);
+      var cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("startdate")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("startplace")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("enddate")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("endplace")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("vehicle")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("num")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("money")[i].value + "</font></div>";
+      row.appendChild(cell);
+      sum += parseFloat(document.all("money")[i].value);
+    }
+  }
+  
+  if(document.all("lodgeplace").length==null) {
+    var row = evetable.insertRow(lodgebegin);
+    allrows.push(row);
+    var cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("lodgeplace").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("lodgetype").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("lodgedays").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("lodgenum").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("lodgemoney").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("othernum").value + "</font></div>";
+    row.appendChild(cell);
+    cell = document.createElement("td");
+    cell.innerHTML = "<div align=center><font size=2>" + document.all("othermoney").value + "</font></div>";
+    row.appendChild(cell);
+    sum += parseFloat(document.all("lodgemoney").value) + parseFloat(document.all("othermoney").value);
+  } else {
+    for(var i=0; i<document.all("lodgeplace").length; i++) {
+      var row = evetable.insertRow(lodgebegin + i);
+      allrows.push(row);
+      var cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("lodgeplace")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("lodgetype")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("lodgedays")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("lodgenum")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("lodgemoney")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("othernum")[i].value + "</font></div>";
+      row.appendChild(cell);
+      cell = document.createElement("td");
+      cell.innerHTML = "<div align=center><font size=2>" + document.all("othermoney")[i].value + "</font></div>";
+      row.appendChild(cell);
+      sum += parseFloat(document.all("lodgemoney")[i].value) + parseFloat(document.all("othermoney")[i].value);
+    }
+  }
+  document.all("sum").innerHTML = sum;
+  var date = new Date();
+  document.all("time").innerHTML = date.getYear()+"."+(date.getMonth()+1)+"."+date.getDate();
+}
+</script>
+<div id="prtdiv" style="display:none">
+<center>
+<p><u> <strong><font size="5" face="楷体_GB2312"> &nbsp;差 旅 费 报 销 单&nbsp;</font></strong></u></p>
+<table width="640"><tr><td>&nbsp;</td></tr></table>
+<table width="640"><tr><td align="right"><strong>凭证码：</strong><span id="pzcode"></span></td></tr></table>
+<table width="640" border="1" cellpadding="0" cellspacing="0" bordercolor="#000000" style="border-collapse :collapse;border-width:2" id="evetable">
+  <tr>
+    <th width="80" height="18"><font size="2">出差人</font></th>
+    <td width="100" colspan="2"><div align="center"><font size="2"><span id="prt_name" /></font></div></td>
+    <th width="80"><font size="2">部门</font></th>
+    <td width="100" colspan="3"><div align="center"><font size="2"><span id="prt_branch" /></font></div></td>
+  </tr>
+  <tr>
+    <th height="18"><font size="2">启程日期</font></th>
+    <td><div align="center"><font size="2"><span id="prt_tripstartdate" /></font></div></td>
+    <th height="18"><font size="2">回程日期</font></th>
+    <td><div align="center"><font size="2"><span id="prt_tripenddate" /></font></div></td>
+    <th height="18"><font size="2">出差事由</font></th>
+    <td colspan="2"><font size="2"><span id="prt_reason" /></font></td>
+  </tr>
+  <tr>
+    <th height="18"><font size="2">出发日期</font></th>
+    <th><font size="2">出发地</font></th>
+    <th><font size="2">到达日期</font></th>
+    <th><font size="2">到达地</font></td>
+    <th><font size="2">交通工具</font></td>
+    <th width="80"><font size="2">单据张数</font></th>
+    <th width="80"><font size="2">金额</font></th>
+  </tr>
+  <tr><td colspan="7">&nbsp;</td></tr>
+  <tr>
+    <th height="18" rowspan="2"><font size="2">住宿地</font></th>
+    <th rowspan="2"><font size="2">住宿类型</font></th>
+    <th rowspan="2"><font size="2">住宿天数</font></th>
+    <th colspan="2"><font size="2">住宿费用</font></th>
+    <th colspan="2"><font size="2">市内车费及伙食费</font></th>
+  </tr>
+  <tr>
+    <th><font size="2">票据张数</font></th>
+    <th><font size="2">金额</font></th>
+    <th><font size="2">票据张数</font></th>
+    <th><font size="2">金额</font></th>
+  </tr>
+  <tr>
+    <td height="38" colspan="2"><div align="center"><font size="5"><strong>报销总额</strong></font></div></td>
+    <td colspan="3"><div align="center"><strong><span id="sum"></span>元</strong></div></td>
+  </tr>
+</table><br>
+<table width="640" border="1" cellpadding="0" cellspacing="0" bordercolor="#000000" style="border-collapse :collapse;">
+  <tr>
+    <th width="25％">项目</th>
+    <th width="25％">票据张数</th>
+    <th width="25％">金额</th>
+    <th width="25％">实际发放金额</th>
+  </tr>
+  <tr>
+    <th>差旅补贴</th>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <th>通讯补贴</th>
+    <td><div align="center"></div></td>
+    <td><div align="center"></div></td>
+    <td></td>
+  </tr>
+</table>
+<p>
+<table width="640" border="0" cellspacing="0" cellpadding="0">	
+	<tr>
+	  <td>1、领款人签字:</td>
+	  <td></td>
+	  <td>2、部门经理签字:</td>
+	  <td></td>
+	  <td>3、出纳复核签字:</td>
+	  <td></td>
+	</tr>
+        <tr>
+	  <td height="20"></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	</tr>
+	<tr>
+	  <td>4、直属主管签字:</td>
+	  <td></td>
+	  <td>5、财务复核签字:</td>
+	  <td></td>
+	  <td>6、权责主管签字:</td>
+	  <td></td>
+	</tr>
+	<tr>
+	  <td height="20"></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	</tr>
+	<tr>
+	  <td>7、财务主管签字:</td>
+	  <td></td>
+	  <td>8、总经理签字:</td>
+          <td></td>
+  	  <td></td>
+	  <td></td>
+	</tr>
+	<tr>
+	  <td height="20"></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	</tr>
+	<tr>
+    	  <td width="*"><div align="left"><strong>日期：</strong><span id="time"></span></div></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	</tr>
+</table>
+<br>
+  <br>
+  <br>
+  <br><br>
+  <br>
+  <br>
+  <table width="640" border="0" cellspacing="0" cellpadding="0">
+  <tr><td width="29%" height="36"><div align="left"><strong><font size="+1">核算单位：</font></strong></div></td></tr>
+  <tr><td><strong>备注</strong></td></tr>
+  <tr><td><span id="prt_remark"></span></td></tr>
+  </table>
+<br><br><br>
+<table width="640" border="1" cellpadding="0" cellspacing="0" bordercolor="#000000" style="border-collapse :collapse;border-width:1;padding:10px">
+<tr><th>提交报销日期</th><td></td><td>提交人签字</td></tr>
+	<tr><th width="120">报销单收条</th>
+<td><strong>凭证码：</strong><span id="pzcode2"></span></td>
+<td width="240">财务签字</td></tr>
+      </table>
+</p>
+<input type="button" id="btprt" value="打印" onclick="prtpage()">
+<input type="button" id="btback" value="返回" onclick="goback()">
+</center>
+</div>
+</body>
+<script>
+function prtpage() {
+  try {
+    document.all("btprt").style.visibility = "hidden";
+    document.all("btback").style.visibility = "hidden";
+    window.print();
+  } finally {
+    document.all("btprt").style.visibility = "visible";
+    document.all("btback").style.visibility = "visible";
+  }
+}
+function goback() {
+  editdiv.style.display = "block";
+  prtdiv.style.display = "none";
+}
+
+function setP() {
+  var pat = /^.+$/;
+  var patD = /^\d{4}-\d{1,2}-\d{1,2}$/;
+  var patI = /^\d+$/;
+  var patd = /^\d+\.?\d*$/;
+  kobeutil_params = [/*[document.all("applicant"), pat, "请输入ID"],*/
+                     [document.all("name"), pat, "请输入姓名"],
+                     [document.all("branch"), pat, "请输入部门"],
+                     [document.all("reason"), pat, "请输入事由"],
+                     [document.all("tripstartdate"), pat, "请输入启程日期"],
+                     [document.all("tripenddate"), pat, "请输入回程日期"],
+                     [document.all("startdate"), patD, "请输入正确出发日期"],
+                     [document.all("startplace"), pat, "请输入出发地"],
+                     [document.all("enddate"), patD, "请输入正确到达日期"],
+                     [document.all("endplace"), pat, "请输入到达地"],
+                     [document.all("num"), patI, "请输入正确票据张数"],
+                     [document.all("money"), patd, "请输入正确金额"],
+                     [document.all("lodgeplace"), pat, "请输入住宿地"],
+                     [document.all("lodgedays"), patd, "请输入正确住宿天数"],
+                     [document.all("lodgenum"), patI, "请输入正确票据张数"],
+                     [document.all("lodgemoney"), patd, "请输入正确金额"],
+                     [document.all("othernum"), patd, "请输入正确单据张数"],
+                     [document.all("othermoney"), patd, "请输入正确金额"],
+                     [document.all("telnum"), patd, "请输入正确单据张数"],
+                     [document.all("telmoney"), patd, "请输入正确金额"]];
+}
+
+var rid = (Math.random() + "").substring(2);
+  document.getElementById("pzcode").innerHTML = rid;
+  document.getElementById("pzcode2").innerHTML = rid;
+</script>
+</html>
