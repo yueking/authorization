@@ -13,6 +13,7 @@ import java.util.List;
 public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public List<User> query(User query, Pageable pageable) {
+        System.out.println("============");
         System.out.println("query:"+query);
         System.out.println("pageable:"+pageable);
         List<User> userList = new ArrayList<>();
@@ -22,8 +23,8 @@ public class UserController {
         return userList;
     }
 
-    @RequestMapping(value = "")
-    public List<User> query2(User user) {
-        return null;
+    @RequestMapping(value = "/hello")
+    public String query2() {
+        return "hello";
     }
 }
