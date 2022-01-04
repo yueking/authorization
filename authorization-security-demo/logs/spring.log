@@ -228,3 +228,49 @@
 2022-01-04 19:52:13.809  INFO 20054 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2022-01-04 19:52:13.810  INFO 20054 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariCP - Shutdown initiated...
 2022-01-04 19:52:13.812  INFO 20054 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariCP - Shutdown completed.
+2022-01-04 19:56:29.998  INFO 20383 --- [main] c.y.security.demo.UserControllerTest     : Starting UserControllerTest on yuekings-iMac with PID 20383 (started by yueking in /Users/yueking/IdeaProjects/authorization-distributer/authorization-security-demo)
+2022-01-04 19:56:29.999  INFO 20383 --- [main] c.y.security.demo.UserControllerTest     : No active profile set, falling back to default profiles: default
+2022-01-04 19:56:30.629  INFO 20383 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-01-04 19:56:30.709  INFO 20383 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 71ms. Found 3 JPA repository interfaces.
+2022-01-04 19:56:31.210  INFO 20383 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-01-04 19:56:31.251  INFO 20383 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.31.Final
+2022-01-04 19:56:31.393  INFO 20383 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-01-04 19:56:31.540  INFO 20383 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariCP - Starting...
+2022-01-04 19:56:31.714  INFO 20383 --- [main] com.zaxxer.hikari.pool.PoolBase          : HikariCP - Driver does not support get/set network timeout for connections. (com.mysql.jdbc.JDBC4Connection.getNetworkTimeout()I)
+2022-01-04 19:56:31.718  INFO 20383 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariCP - Start completed.
+2022-01-04 19:56:31.728  INFO 20383 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2022-01-04 19:56:31.902  WARN 20383 --- [main] org.hibernate.id.UUIDHexGenerator        : HHH000409: Using org.hibernate.id.UUIDHexGenerator which does not generate IETF RFC 4122 compliant UUID values; consider using org.hibernate.id.UUIDGenerator instead
+2022-01-04 19:56:32.476  INFO 20383 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-01-04 19:56:32.483  INFO 20383 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-01-04 19:56:33.261  INFO 20383 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-01-04 19:56:33.673  INFO 20383 --- [main] c.y.security.demo.UserControllerTest     : Started UserControllerTest in 3.951 seconds (JVM running for 4.693)
+2022-01-04 19:56:33.751  INFO 20383 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-01-04 19:56:33.751  INFO 20383 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-01-04 19:56:33.763  INFO 20383 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 12 ms
+2022-01-04 19:56:34.050  INFO 20383 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-01-04 19:56:34.051  INFO 20383 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-01-04 19:56:34.052  INFO 20383 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariCP - Shutdown initiated...
+2022-01-04 19:56:34.055  INFO 20383 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariCP - Shutdown completed.
+2022-01-04 22:56:25.560  INFO 24217 --- [main] c.y.security.demo.UserControllerTest     : Starting UserControllerTest on yuekings-iMac with PID 24217 (started by yueking in /Users/yueking/IdeaProjects/authorization-distributer/authorization-security-demo)
+2022-01-04 22:56:25.561  INFO 24217 --- [main] c.y.security.demo.UserControllerTest     : No active profile set, falling back to default profiles: default
+2022-01-04 22:56:26.167  INFO 24217 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-01-04 22:56:26.244  INFO 24217 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 67ms. Found 3 JPA repository interfaces.
+2022-01-04 22:56:26.714  INFO 24217 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-01-04 22:56:26.753  INFO 24217 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.31.Final
+2022-01-04 22:56:26.865  INFO 24217 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-01-04 22:56:27.015  INFO 24217 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariCP - Starting...
+2022-01-04 22:56:27.198  INFO 24217 --- [main] com.zaxxer.hikari.pool.PoolBase          : HikariCP - Driver does not support get/set network timeout for connections. (com.mysql.jdbc.JDBC4Connection.getNetworkTimeout()I)
+2022-01-04 22:56:27.202  INFO 24217 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariCP - Start completed.
+2022-01-04 22:56:27.212  INFO 24217 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2022-01-04 22:56:27.356  WARN 24217 --- [main] org.hibernate.id.UUIDHexGenerator        : HHH000409: Using org.hibernate.id.UUIDHexGenerator which does not generate IETF RFC 4122 compliant UUID values; consider using org.hibernate.id.UUIDGenerator instead
+2022-01-04 22:56:27.874  INFO 24217 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-01-04 22:56:27.882  INFO 24217 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-01-04 22:56:28.670  INFO 24217 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-01-04 22:56:28.993  INFO 24217 --- [main] c.y.security.demo.UserControllerTest     : Started UserControllerTest in 3.716 seconds (JVM running for 4.61)
+2022-01-04 22:56:29.060  INFO 24217 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-01-04 22:56:29.060  INFO 24217 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-01-04 22:56:29.070  INFO 24217 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 10 ms
+2022-01-04 22:56:29.441  INFO 24217 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-01-04 22:56:29.442  INFO 24217 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-01-04 22:56:29.443  INFO 24217 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariCP - Shutdown initiated...
+2022-01-04 22:56:29.446  INFO 24217 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariCP - Shutdown completed.

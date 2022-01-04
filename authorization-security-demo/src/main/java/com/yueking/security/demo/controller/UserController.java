@@ -45,8 +45,7 @@ public class UserController {
     public User addUser(@Valid @RequestBody User user) {
         System.out.println("user:"+user);
         System.out.println("createDate:"+user.getCreatedDate());
-        // return userService.add(user);
-        return user;
+        return userService.add(user);
     }
 
 
