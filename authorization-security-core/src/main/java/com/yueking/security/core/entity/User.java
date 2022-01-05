@@ -27,7 +27,7 @@ public class User extends Base implements UserDetails, Serializable {
 
     @JsonView(DetailView.class)
     @NotBlank(message = "密码不能为空")
-    @Length(min = 3, max = 8, message = "密码长度在[3,20]之间")
+    @Length(min = 3, max = 20, message = "密码长度在[3,20]之间")
     private String password;
 
     @JsonView(DetailView.class)
