@@ -52,5 +52,10 @@ public class UserServiceImpl implements UserService {
         return new JsonPage<User>(page.getContent(),pageable,page.getTotalElements());
     }
 
+    @Override
+    public boolean existsById(String id) {
+        return userDao.existsById(id);
+    }
+
 
 }

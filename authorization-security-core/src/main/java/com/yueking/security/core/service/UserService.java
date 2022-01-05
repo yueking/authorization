@@ -14,5 +14,6 @@ public interface UserService {
     User findById(String username);
     List<User> query(User user, Sort sort);
     Page<User> query(User user, Pageable pageable);
+    boolean existsById(String id);
 
 }

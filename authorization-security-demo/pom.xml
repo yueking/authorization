@@ -50,7 +50,7 @@
                 </executions>
             </plugin>
         </plugins>
-        <finalName>core</finalName>
+        <finalName>demo</finalName>
     </build>
 
 </project>
