@@ -74,4 +74,27 @@ public class UserControllerTest {
         User user1 = objectMapper.readValue(result, User.class);
         System.out.println(objectMapper.writeValueAsString(user1));
     }
+
+    @Test
+    public void whenUpdateSuccess()throws Exception{
+        User user = new User();
+        user.setUsername("yuewu");
+        user.setPassword("yuewu");
+        user.setDel(false);
+        user.setCreatedDate(new Date());
+
+        ObjectMapper objectMapper = new JsonMapper();
+        String json = objectMapper.writeValueAsString(user);
+        System.out.println(json);
+
+        String content = json;
+        String result = mockMvc.perform(MockMvcRequestBuilders.put("/user").contentType(MediaType.APPLICATION_JSON)
+                .content(content))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value(user.getUsername()))
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(result);
+        User user1 = objectMapper.readValue(result, User.class);
+        System.out.println(objectMapper.writeValueAsString(user1));
+    }
 }

@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(User user) {
-        userDao.save(user);
+    public User update(User user) {
+        return userDao.save(user);
     }
 
     public List<User> query(User user, Sort sort) {

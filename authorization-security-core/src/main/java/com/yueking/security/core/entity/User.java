@@ -21,6 +21,7 @@ public class User extends Base implements UserDetails, Serializable {
     @JsonView(SimpleView.class)
     @NotBlank
     private String username;
+
     @JsonView(DetailView.class)
     @NotBlank
     private String password;

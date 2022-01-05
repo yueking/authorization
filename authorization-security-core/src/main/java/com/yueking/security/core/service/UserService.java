@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
     User add(User user);
     void deleteById(String id);
-    void update(User user);
+    User update(User user);
     User findById(String username);
     List<User> query(User user, Sort sort);
     Page<User> query(User user, Pageable pageable);

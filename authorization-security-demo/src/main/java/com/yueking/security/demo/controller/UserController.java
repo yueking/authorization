@@ -47,16 +47,24 @@ public class UserController {
 
     @JsonView(Base.DetailView.class)
     @GetMapping("/{id}")
-    public User findUserById(@PathVariable String id) {
+    public User findById(@PathVariable String id) {
         return userService.findById(id);
     }
 
     @JsonView(Base.DetailView.class)
     @PostMapping
-    public User addUser(@Valid @RequestBody User user) {
+    public User add(@Valid @RequestBody User user) {
         System.out.println("user:" + user);
         System.out.println("createDate:" + user.getCreatedDate());
         return userService.add(user);
+    }
+
+    @JsonView(Base.DetailView.class)
+    @PutMapping
+    public User update(@Valid @RequestBody User user) {
+        System.out.println("user:" + user);
+        System.out.println("createDate:" + user.getCreatedDate());
+        return userService.update(user);
     }
 
 
