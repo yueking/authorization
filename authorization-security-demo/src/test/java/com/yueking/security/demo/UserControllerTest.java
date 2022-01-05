@@ -79,7 +79,7 @@ public class UserControllerTest {
     public void whenUpdateSuccess()throws Exception{
         User user = new User();
         user.setUsername("yuewu");
-        user.setPassword("yuewu");
+        user.setPassword("");
         user.setDel(false);
         user.setCreatedDate(new Date());
 
@@ -96,5 +96,12 @@ public class UserControllerTest {
         System.out.println(result);
         User user1 = objectMapper.readValue(result, User.class);
         System.out.println(objectMapper.writeValueAsString(user1));
+    }
+
+    @Test
+    public void whenDeleteSuccess()throws Exception{
+        String userId = "yuewu";
+        mockMvc.perform(MockMvcRequestBuilders.delete("/user/"+userId).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

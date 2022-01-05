@@ -3,10 +3,12 @@ package com.yueking.security.core.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Collection;
@@ -23,7 +25,8 @@ public class User extends Base implements UserDetails, Serializable {
     private String username;
 
     @JsonView(DetailView.class)
-    @NotBlank
+    @NotBlank(message = "密码不能为空")
+    @Length(min = 3, max = 8, message = "密码长度在[3,20]之间")
     private String password;
 
     @JsonView(DetailView.class)

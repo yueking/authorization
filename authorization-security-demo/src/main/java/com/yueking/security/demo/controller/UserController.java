@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -53,7 +55,12 @@ public class UserController {
 
     @JsonView(Base.DetailView.class)
     @PostMapping
-    public User add(@Valid @RequestBody User user) {
+    public User add(@Valid @RequestBody User user,BindingResult errors) {
+        if (errors.hasErrors()) {
+            errors.getAllErrors().stream().forEach(error ->{
+                System.out.println(error.getDefaultMessage());
+            });
+        }
         System.out.println("user:" + user);
         System.out.println("createDate:" + user.getCreatedDate());
         return userService.add(user);
@@ -61,10 +68,22 @@ public class UserController {
 
     @JsonView(Base.DetailView.class)
     @PutMapping
-    public User update(@Valid @RequestBody User user) {
+    public User update(@Valid @RequestBody User user, BindingResult error) {
+        if (error.hasErrors()) {
+            List<ObjectError> allErrors = error.getAllErrors();
+            for (ObjectError allError : allErrors) {
+                System.out.println(allError.getDefaultMessage());
+            }
+        }
         System.out.println("user:" + user);
         System.out.println("createDate:" + user.getCreatedDate());
         return userService.update(user);
+    }
+
+    @DeleteMapping ("/{id}")
+    public void delete(@PathVariable String id) {
+        System.out.println("delete:"+id);
+         userService.deleteById(id);
     }
 
 
