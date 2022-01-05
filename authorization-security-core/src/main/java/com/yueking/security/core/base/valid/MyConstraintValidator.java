@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 // @Component
-public class MyConstraintValidator implements ConstraintValidator<MyConstraint, Object> {
+public class MyConstraintValidator implements ConstraintValidator<MyConstraint, String> {
     @Autowired
     UserDao userDao;
     @Autowired
@@ -21,10 +21,8 @@ public class MyConstraintValidator implements ConstraintValidator<MyConstraint, 
     }
 
     @Override
-    public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
-        String username = (String) o;
-        // System.out.println("==isValid"+new Date());
-        System.out.println("==isValid"+System.currentTimeMillis());
+    public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
+        System.out.println("==isValid\t"+username+"\t"+System.currentTimeMillis());
         if (userDao != null) {
             System.out.println("userDao:"+userDao);
             System.out.println("userService:"+userService);
