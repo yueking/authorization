@@ -1,5 +1,6 @@
 package com.yueking.security.core.service.impl;
 
+import com.yueking.security.core.base.JsonPage;
 import com.yueking.security.core.entity.User;
 import com.yueking.security.core.repository.UserDao;
 import com.yueking.security.core.service.UserService;
@@ -46,7 +47,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public Page<User> query(User user, Pageable pageable) {
-        return userDao.findAll(new UserSpecification(user),pageable);
+        Page page = userDao.findAll(new UserSpecification(user), pageable);
+        // return new JsonPage<User>(page,pageable);
+        return new JsonPage<User>(page.getContent(),pageable,page.getTotalElements());
     }
 
 

@@ -23,7 +23,7 @@ public class Base implements Serializable {
     public interface SimpleView{}
     public interface DetailView extends SimpleView{}
 
-    @JsonView(DetailView.class)
+    @JsonView(SimpleView.class)
     @Column(name = "del")
     private boolean del;
 
