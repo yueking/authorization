@@ -23,9 +23,9 @@ public class MyConstraintValidator implements ConstraintValidator<MyConstraint, 
     @Override
     public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
         System.out.println("==isValid\t"+username+"\t"+System.currentTimeMillis());
+        System.out.println("userDao:"+userDao);
+        System.out.println("userService:"+userService);
         if (userDao != null) {
-            System.out.println("userDao:"+userDao);
-            System.out.println("userService:"+userService);
             return  !userService.existsById(username);
         }
         return true;
