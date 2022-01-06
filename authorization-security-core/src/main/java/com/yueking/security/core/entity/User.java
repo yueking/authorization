@@ -3,6 +3,7 @@ package com.yueking.security.core.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.yueking.security.core.base.valid.MyConstraint;
+import com.yueking.security.core.base.valid.UserStatus;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,7 +23,7 @@ public class User extends Base implements UserDetails, Serializable {
     @Id
     @JsonView(SimpleView.class)
     @NotBlank
-    @MyConstraint(message = "用户已存在")
+    // @MyConstraint(message = "用户已存在")
     private String username;
 
     @JsonView(DetailView.class)
@@ -38,6 +39,10 @@ public class User extends Base implements UserDetails, Serializable {
     private boolean credentialsNonExpired = true;
     @JsonView(DetailView.class)
     private boolean enabled = true;
+
+    @JsonView(DetailView.class)
+    @UserStatus
+    private Integer status;
 
     public User(){}
     public User(String username){

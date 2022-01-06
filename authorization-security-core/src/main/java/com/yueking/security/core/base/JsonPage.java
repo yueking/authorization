@@ -8,6 +8,10 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+/**
+ * 包装默认的 Page 数据 为了其内容支持 JsonView 分组
+ * @param <T>
+ */
 public class JsonPage<T> extends PageImpl {
     public JsonPage(final List<T> content, final Pageable pageable,final long total) {
         super(content, pageable, total);
