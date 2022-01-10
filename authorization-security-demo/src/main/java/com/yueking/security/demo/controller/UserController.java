@@ -60,8 +60,6 @@ public class UserController {
                 System.out.println(error.getDefaultMessage());
             });
         }
-        // System.out.println("user:" + user);
-        // System.out.println("createDate:" + user.getCreatedDate());
         return userService.add(user);
     }
 

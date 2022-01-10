@@ -20,6 +20,8 @@ import java.util.Date;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class Base implements Serializable {
+    public interface insert{};
+    public interface update{};
     public interface SimpleView{}
     public interface DetailView extends SimpleView{}
 
