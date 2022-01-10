@@ -15,6 +15,7 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import com.yueking.security.demo.exception.UserNotExistException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -49,17 +50,23 @@ public class UserController {
     @JsonView(Base.DetailView.class)
     @GetMapping("/{id}")
     public User findById(@PathVariable String id) {
-        return userService.findById(id);
+        try {
+            return userService.findById(id);
+        } catch (Exception e) {
+            throw new UserNotExistException(id);
+        }
+
     }
 
     @JsonView(Base.DetailView.class)
     @PostMapping
-    public User add(@Valid @RequestBody User user,BindingResult errors) {
-        if (errors.hasErrors()) {
-            errors.getAllErrors().stream().forEach(error ->{
-                System.out.println(error.getDefaultMessage());
-            });
-        }
+    // public User add(@Valid @RequestBody User user,BindingResult errors) {
+    public User add(@Valid @RequestBody User user) {
+        // if (errors.hasErrors()) {
+        //     errors.getAllErrors().stream().forEach(error ->{
+        //         System.out.println(error.getDefaultMessage());
+        //     });
+        // }
         return userService.add(user);
     }
 

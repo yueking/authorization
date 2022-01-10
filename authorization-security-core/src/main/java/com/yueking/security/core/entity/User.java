@@ -23,7 +23,7 @@ public class User extends Base implements UserDetails, Serializable {
     @Id
     @JsonView(SimpleView.class)
     @NotBlank
-    @MyConstraint(message = "用户已存在")
+    // @MyConstraint(message = "用户已存在")
     private String username;
 
     @JsonView(DetailView.class)
