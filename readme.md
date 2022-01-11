@@ -1,4 +1,4 @@
-##### 异常处理
+##### 自定义异常处理
 ###### html
 
 1. src/main/java/resources/resources/error/
@@ -8,6 +8,7 @@
 1. 创建 @ControllerAdvice exceptionHandle 类
 2. 配置类 处理的异常
 2. 注意ExceptionHandlerAdvice类所在的包必须在项目启动类之下的包
+2. 返回统一的自定义ResponseEntity
 
 ```java
 @ControllerAdvice
