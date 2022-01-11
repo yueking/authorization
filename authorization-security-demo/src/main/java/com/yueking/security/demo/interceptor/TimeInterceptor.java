@@ -50,6 +50,6 @@ public class TimeInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         Long startTime = (Long) request.getAttribute("startTime");
-        System.out.println("--afterCompletion\t time interceptor 耗时:"+(System.currentTimeMillis() - startTime));
+        System.out.println("--afterCompletion\t time interceptor 耗时:"+(System.currentTimeMillis() - startTime)+"\texception: "+ex);
     }
 }

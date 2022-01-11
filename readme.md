@@ -79,4 +79,61 @@ public class WebConfig {
 3.Filter可以过滤所有的请求，但是无法感知具体controller及方法的信息
 ```
 ##### 自定义拦截器
+###### 1. 编写
+
+```java
+@Component
+public class TimeInterceptor implements HandlerInterceptor {
+    /**
+     * 方法执行前
+     */
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        request.setAttribute("startTime",System.currentTimeMillis());
+        System.out.println("--preHandle\t\t\t time interceptor 执行:"+((HandlerMethod)handler).getBean().getClass().getName()+"."+((HandlerMethod)handler).getMethod().getName());
+        return true;
+    }
+
+    /**
+     * 方法正常执行后
+     */
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        Long startTime = (Long) request.getAttribute("startTime");
+        System.out.println("--postHandle\t\t time interceptor 耗时:"+(System.currentTimeMillis() - startTime));
+    }
+
+    /**
+     * 方法执行后 无论是否有异常 最后都会执行
+     */
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        Long startTime = (Long) request.getAttribute("startTime");
+        System.out.println("--afterCompletion\t time interceptor 耗时:"+(System.currentTimeMillis() - startTime)+"\texception: "+ex);
+    }
+}
+```
+###### 2.配置
+
+```java
+
+@Configuration
+public class WebConfig extends WebMvcConfigurerAdapter {
+    @Autowired
+    private TimeInterceptor timeInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(timeInterceptor);
+    }
+}
+
+```
+
+###### 3.总结
+
+```java
+Interceptor 需要配置
+Interceptor 比Filter能细致由于其是SpringMvc的组件其能感知具体Controller及方法
+```
 
