@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.*;
 import java.io.IOException;
 
-@Component
+// @Component
 public class TimeFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -15,12 +15,12 @@ public class TimeFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("time filter starting...");
+        System.out.println("time filter 开始");
         long start = System.currentTimeMillis();
         filterChain.doFilter(servletRequest,servletResponse);
         long time = System.currentTimeMillis() - start;
         System.out.println("time filter 耗时:"+time);
-        System.out.println("time filter finish");
+        System.out.println("time filter 结束");
     }
 
     @Override
