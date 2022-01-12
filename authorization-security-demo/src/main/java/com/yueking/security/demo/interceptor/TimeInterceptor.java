@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,14 @@ public class TimeInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         request.setAttribute("startTime",System.currentTimeMillis());
-        System.out.println("--preHandle\t\t\t time interceptor 执行:"+((HandlerMethod)handler).getBean().getClass().getName()+"."+((HandlerMethod)handler).getMethod().getName());
+
+        if(handler instanceof  HandlerMethod){
+            String className = ((HandlerMethod) handler).getBean().getClass().getName();
+            String methodName = ((HandlerMethod) handler).getMethod().getName();
+            System.out.println("--preHandle\t\t\t time interceptor 执行:"+ className +"."+ methodName);
+        }else if(handler instanceof ResourceHttpRequestHandler){
+            System.out.println("--preHandle\t\t\t time interceptor 执行:");
+        }
         return true;
     }
 
