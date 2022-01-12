@@ -5,24 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-@Component
 
+@Data
+@Component
 public class MockQueue {
     private String placeOrder;
     private String completeOrder;
     private Logger logger = LoggerFactory.getLogger(getClass());
-
-    public String getPlaceOrder() {
-        return placeOrder;
-    }
-
-    public String getCompleteOrder() {
-        return completeOrder;
-    }
-
-    public void setCompleteOrder(String completeOrder) {
-        this.completeOrder = completeOrder;
-    }
 
     public void setPlaceOrder(String placeOrder) {
         new Thread(()->{
@@ -34,6 +23,6 @@ public class MockQueue {
             }
             this.completeOrder = placeOrder;
             logger.info("下单处理完毕:"+placeOrder);
-        });
+        }).start();
     }
 }

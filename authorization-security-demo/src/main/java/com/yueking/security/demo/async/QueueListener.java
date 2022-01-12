@@ -42,6 +42,6 @@ public class QueueListener implements ApplicationListener<ContextRefreshedEvent>
                     }
                 }
             }
-        });
+        }).start();
     }
 }
