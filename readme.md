@@ -165,11 +165,45 @@ public class TimeAspect {
 
 ```
 
-###### 拦截器总结
+拦截器总结
 
 ```
 Filter			:能获取原始 httpRequest httpResponse
 Interceptor	:能获取原始 httpRequest httpResponse class methodName
 Aspect			:参数的值与方法名 但是获取不到原始 request response
 ```
+
+####  异步线程处理
+###### 异步方法处理
+
+- ```
+  Callable
+  ```
+
+- ```
+  DeferredResult
+  ```
+
+###### 异步配置支持
+
+####  RESTful API Swagger自动文档
+
+1. ```xml
+   <dependency>
+               <groupId>io.springfox</groupId>
+               <artifactId>springfox-boot-starter</artifactId>
+               <version>3.0.0</version>
+   </dependency>
+   ```
+
+2. ```java
+   @EnableOpenApi
+   @SpringBootApplication
+   ```
+
+3. ```java
+   http://localhost:8080/swagger-ui/index.html
+   ```
+
+
 
