@@ -19,8 +19,8 @@ public class TimeFilter implements Filter {
         long start = System.currentTimeMillis();
         filterChain.doFilter(servletRequest,servletResponse);
         long time = System.currentTimeMillis() - start;
-        System.out.println("time filter 耗时:"+time);
         System.out.println("time filter 结束");
+        System.out.println("time filter 耗时:"+time);
     }
 
     @Override
