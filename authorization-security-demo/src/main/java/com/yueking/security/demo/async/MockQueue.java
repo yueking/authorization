@@ -15,14 +15,14 @@ public class MockQueue {
 
     public void setPlaceOrder(String placeOrder) {
         new Thread(()->{
-            logger.info("接收下单请求:"+placeOrder);
+            logger.info("接订单请求:"+placeOrder);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             this.completeOrder = placeOrder;
-            logger.info("下单处理完毕:"+placeOrder);
+            logger.info("订单处理完毕:"+placeOrder);
         }).start();
     }
 }
