@@ -2,6 +2,8 @@ package com.yueking.security.demo.controller;
 
 
 import com.yueking.security.demo.model.FileInfo;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ public class FileController {
     private String uploadFolder;
 
     @PostMapping
+    @ApiOperation("文件上传")
     public FileInfo upload(MultipartFile file) throws IOException {
         System.out.println(file.getName());
         System.out.println(file.getOriginalFilename());
@@ -31,7 +34,8 @@ public class FileController {
     }
 
     @GetMapping("/{id}")
-    public void download(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @ApiOperation("文件下载")
+    public void download(@ApiParam("文件ID") @PathVariable String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String fileName = id + ".txt";
         try (InputStream inputStream = new FileInputStream(new File(uploadFolder, fileName));
              OutputStream outputStream = response.getOutputStream()) {
