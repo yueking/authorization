@@ -4,7 +4,6 @@ import com.yueking.security.core.base.ResultResponse;
 import com.yueking.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -48,6 +47,7 @@ public class BrowserSecurityController {
         if (savedRequest != null) {
             String targetUrl = savedRequest.getRedirectUrl();
             logger.info("引发跳转的请求:" + targetUrl);
+            //todo 判断是浏览器还是restful请求 这个判断方式需要改进，读取请求头中的信息进行判断
             if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")) {
                 // html 请求跳转
                 redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
